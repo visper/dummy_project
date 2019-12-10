@@ -1,5 +1,8 @@
 #include "project.h"
 
-int sum(int x, int y) {
-  return x + y;
+namespace dev {
+
+int Project::run() {
+  return 0;
 }
+}  // namespace dev

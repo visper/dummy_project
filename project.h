@@ -1,3 +1,11 @@
 #pragma once
+#include "iproject.h"
 
-int sum();
+namespace dev {
+
+class Project : public IProject {
+  // IProject interface
+ public:
+  int run();
+};
+}  // namespace dev
