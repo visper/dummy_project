@@ -8,5 +8,4 @@ int main()
 	cout << calculator->returnResult() << endl;
 
 	system("pause");
-
 }

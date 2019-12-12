@@ -92,7 +92,7 @@ void Calc::parceOperands(string& str)
 			operandsVector.push_back(tmpOperand);
 		}
 	}
-}
+} 
 
 char Calc::operatorsToParse(int index)
 {
