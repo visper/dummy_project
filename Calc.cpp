@@ -13,24 +13,25 @@ float Calc::returnResult()
 
 	for (int i = operatorsVector.size() - 1; i >= 0; i--)					//{TODO} operands sequence over 2 operation is faulty
 	{
+		int firtsOperandIndex = i;
 		if ('+' == operatorsVector[i])
 		{
-			tmpOperand = sum(operandsVector[i + SECOND_OPERAND_INDEX], operandsVector[i]);
+			tmpOperand = sum(operandsVector[firtsOperandIndex + SECOND_OPERAND_INDEX], operandsVector[i]);
 			reduceVectorSize(tmpOperand);
 		}
 		else if ('-' == operatorsVector[i])
 		{
-			tmpOperand = sub(operandsVector[i + SECOND_OPERAND_INDEX], operandsVector[i]);
+			tmpOperand = sub(operandsVector[firtsOperandIndex + SECOND_OPERAND_INDEX], operandsVector[i]);
 			reduceVectorSize(tmpOperand);
 		}
 		else if ('*' == operatorsVector[i])
 		{
-			tmpOperand = mul(operandsVector[i + SECOND_OPERAND_INDEX], operandsVector[i]);
+			tmpOperand = mul(operandsVector[firtsOperandIndex + SECOND_OPERAND_INDEX], operandsVector[i]);
 			reduceVectorSize(tmpOperand);
 		}
 		else
 		{
-			tmpOperand = div(operandsVector[i + SECOND_OPERAND_INDEX], operandsVector[i]);
+			tmpOperand = div(operandsVector[firtsOperandIndex + SECOND_OPERAND_INDEX], operandsVector[i]);
 			reduceVectorSize(tmpOperand);
 		}
 
