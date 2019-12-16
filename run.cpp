@@ -13,12 +13,19 @@ struct Movie {
 };
 
 struct Rental {
-  Movie movie;
-  int days_rented;
+
+  Rental(Movie movie,int days_rented):
+      movie_(movie),
+      days_rented_(days_rented) {
+
+  }
+
+  Movie movie_;
+  int days_rented_;
 
 
   int GetFrequentRenterPoints() {
-    if (movie.type == "NEW_RELEASE" && days_rented > 1) {
+    if (movie_.type == "NEW_RELEASE" && days_rented_ > 1) {
       return 2;
     }
     return 1;
@@ -26,18 +33,18 @@ struct Rental {
 
 
   double GetAmount() const {
-    if (movie.type == "NEW_RELEASE") {
-          return days_rented * 3;
+    if (movie_.type == "NEW_RELEASE") {
+          return days_rented_ * 3;
     }
-    if (movie.type == "REGULAR") {
-      if (days_rented > 2) {
-        return 2 + (days_rented - 2) * 1.5;
+    if (movie_.type == "REGULAR") {
+      if (days_rented_ > 2) {
+        return 2 + (days_rented_ - 2) * 1.5;
       }
       return 2;
     }
-    if (movie.type == "CHILDRENS") {
-        if (days_rented > 3) {
-          return 1.5 + (days_rented - 3) * 1.5;
+    if (movie_.type == "CHILDRENS") {
+        if (days_rented_ > 3) {
+          return 1.5 + (days_rented_ - 3) * 1.5;
         }
         return 1.5;
     }
@@ -90,7 +97,23 @@ struct Rental {
     std::map<int, Movie> movies_;
  };
 
- void run(std::istream& in, std::ostream& out){
+struct RentalFactory {
+  RentalFactory(MovieRepo& movie_repo):movie_repo_(movie_repo) {
+
+  };
+  Rental createRental(const std::string& input) {
+    std::vector<std::string> rental_data = Split(input, ' ');
+    int key = std::stoi(rental_data[0]);
+    int days = std::stoi(rental_data[1]);
+    Movie movie = movie_repo_.getMovie(key);
+    Rental rental (movie , days);
+    return rental;
+  }
+
+  MovieRepo& movie_repo_;
+};
+
+void run(std::istream& in, std::ostream& out){
   using namespace std::literals;
   // read movies from file
   std::ifstream movieStream{"movies.csv"};
@@ -100,7 +123,6 @@ struct Rental {
   out << "Enter customer name: ";
   std::string customerName;
   getline(in, customerName);
-
   out << "Choose movie by number followed by rental days, just ENTER for bill:\n";
   std::ostringstream result;
   result << std::fixed << std::setprecision(1);
@@ -110,17 +132,15 @@ struct Rental {
   double totalAmount = 0;
   int frequentRenterPoints = 0;
 
-
+  RentalFactory rental_facotry_(movie_repo);
   for (const auto& line : user_input) {
-      std::vector<std::string> rental_data = Split(line, ' ');
-      Rental rental = {movie_repo.getMovie(std::stoi(rental_data[0])),
-                                std::stoi(rental_data[1])};
+      Rental rental = rental_facotry_.createRental(line);
 
       double thisAmount = rental.GetAmount();
 
       frequentRenterPoints += rental.GetFrequentRenterPoints();
       // show figures for this rental
-      result << "\t" << rental.movie.name + "\t" << thisAmount << "\n";
+      result << "\t" << rental.movie_.name + "\t" << thisAmount << "\n";
       totalAmount += thisAmount;
   }
 
