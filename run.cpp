@@ -113,6 +113,22 @@ struct RentalFactory {
   MovieRepo& movie_repo_;
 };
 
+double getTotalAmount(std::vector<Rental>& rentals) {
+    double result = 0;
+    for (const auto& rental: rentals) {
+      result += rental.GetAmount();
+    }
+    return result;
+}
+
+int getTotalFrequentPoints(std::vector<Rental>& rentals) {
+    int result = 0;
+    for (const auto& rental: rentals) {
+      result += rental.GetFrequentRenterPoints();
+    }
+    return result;
+}
+
 void run(std::istream& in, std::ostream& out){
   using namespace std::literals;
   // read movies from file
@@ -127,10 +143,7 @@ void run(std::istream& in, std::ostream& out){
   std::ostringstream result;
   result << std::fixed << std::setprecision(1);
   result << "Rental Record for " + customerName + "\n";
-
   std::vector<std::string> user_input = UserInput(in);
-  double totalAmount = 0;
-  int frequentRenterPoints = 0;
 
   RentalFactory rental_facotry_(movie_repo);
   std::vector<Rental> rentals;
@@ -140,18 +153,11 @@ void run(std::istream& in, std::ostream& out){
   }
 
   for (const auto& rental : rentals) {
-    frequentRenterPoints += rental.GetFrequentRenterPoints();
+    result << "\t" << rental.movie_.name + "\t" << rental.GetAmount()<< "\n";
   }
-
-  for (const auto& rental : rentals) {
-    double thisAmount = rental.GetAmount();
-    result << "\t" << rental.movie_.name + "\t" << thisAmount << "\n";
-    totalAmount += thisAmount;
-  }
-
   // add footer lines
-  result << "You owed " << totalAmount << "\n";
-  result << "You earned " << frequentRenterPoints << " frequent renter points\n";
+  result << "You owed " << getTotalAmount(rentals)<< "\n";
+  result << "You earned " << getTotalFrequentPoints(rentals) << " frequent renter points\n";
 
   out << result.str();
 }
