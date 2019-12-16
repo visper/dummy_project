@@ -7,7 +7,12 @@ enable_testing()
 
 
 
-set(SOURCES run.h run.cpp)
+set(SOURCES
+       imovie.h
+       movie.h
+       movie.cc
+       run.h
+       run.cpp)
 add_library(StoreLib ${SOURCES})
 
 add_executable(commandline_videostore_cpp main.cpp)

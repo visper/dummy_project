@@ -4,13 +4,8 @@
 #include <vector>
 #include <iomanip>
 #include <sstream>
+#include "movie.h"
 
-
-struct Movie {
-  int index;
-  std::string name;
-  std::string type;
-};
 
 struct Rental {
 
@@ -25,7 +20,7 @@ struct Rental {
 
 
   int GetFrequentRenterPoints() const {
-    if (movie_.type == "NEW_RELEASE" && days_rented_ > 1) {
+    if (movie_.getType() == "NEW_RELEASE" && days_rented_ > 1) {
       return 2;
     }
     return 1;
@@ -33,16 +28,16 @@ struct Rental {
 
 
   double GetAmount() const {
-    if (movie_.type == "NEW_RELEASE") {
+    if (movie_.getType() == "NEW_RELEASE") {
           return days_rented_ * 3;
     }
-    if (movie_.type == "REGULAR") {
+    if (movie_.getType() == "REGULAR") {
       if (days_rented_ > 2) {
         return 2 + (days_rented_ - 2) * 1.5;
       }
       return 2;
     }
-    if (movie_.type == "CHILDRENS") {
+    if (movie_.getType() == "CHILDRENS") {
         if (days_rented_ > 3) {
           return 1.5 + (days_rented_ - 3) * 1.5;
         }
@@ -78,8 +73,9 @@ struct Rental {
     MovieRepo(std::ifstream& db_file) {
       for (std::string line; std::getline(db_file, line);) {
         auto movie_data = Split(line, ';');
-        Movie movie {std::stoi(movie_data[0]), movie_data[1], movie_data[2]};
-        movies_.insert(std::make_pair(movie.index, movie));
+        auto movie_index  = std::stoi(movie_data[0]);
+        Movie movie {movie_index, movie_data[1], movie_data[2]};
+        movies_.insert(std::make_pair(movie_index, movie));
       }
     }
 
@@ -89,7 +85,7 @@ struct Rental {
 
      void print(std::ostream& out) const {
         for (const auto& movie: movies_) {
-            out << movie.first<< ": " << movie.second.name<< "\n";
+            out << movie.first<< ": " << movie.second.getName()<< "\n";
         }
      }
 
@@ -153,7 +149,7 @@ void run(std::istream& in, std::ostream& out){
   }
 
   for (const auto& rental : rentals) {
-    result << "\t" << rental.movie_.name + "\t" << rental.GetAmount()<< "\n";
+    result << "\t" << rental.movie_.getName() + "\t" << rental.GetAmount()<< "\n";
   }
   // add footer lines
   result << "You owed " << getTotalAmount(rentals)<< "\n";
