@@ -11,6 +11,9 @@ set(SOURCES
        imovie.h
        movie.h
        movie.cc
+       irental.h
+       rental.h
+       rental.cc
        run.h
        run.cpp)
 add_library(StoreLib ${SOURCES})

@@ -5,47 +5,7 @@
 #include <iomanip>
 #include <sstream>
 #include "movie.h"
-
-
-struct Rental {
-
-  Rental(Movie movie,int days_rented):
-      movie_(movie),
-      days_rented_(days_rented) {
-
-  }
-
-  Movie movie_;
-  int days_rented_;
-
-
-  int GetFrequentRenterPoints() const {
-    if (movie_.getType() == "NEW_RELEASE" && days_rented_ > 1) {
-      return 2;
-    }
-    return 1;
-  }
-
-
-  double GetAmount() const {
-    if (movie_.getType() == "NEW_RELEASE") {
-          return days_rented_ * 3;
-    }
-    if (movie_.getType() == "REGULAR") {
-      if (days_rented_ > 2) {
-        return 2 + (days_rented_ - 2) * 1.5;
-      }
-      return 2;
-    }
-    if (movie_.getType() == "CHILDRENS") {
-        if (days_rented_ > 3) {
-          return 1.5 + (days_rented_ - 3) * 1.5;
-        }
-        return 1.5;
-    }
-    return 0;
-  }
-};
+#include "rental.h"
 
  std::vector<std::string> Split(const std::string& line, const char delimeter) {
    std::vector<std::string> movie;
@@ -149,7 +109,7 @@ void run(std::istream& in, std::ostream& out){
   }
 
   for (const auto& rental : rentals) {
-    result << "\t" << rental.movie_.getName() + "\t" << rental.GetAmount()<< "\n";
+    result << "\t" << rental.MovieName() + "\t" << rental.GetAmount()<< "\n";
   }
   // add footer lines
   result << "You owed " << getTotalAmount(rentals)<< "\n";
