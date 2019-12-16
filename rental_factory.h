@@ -7,7 +7,7 @@
 class RentalFactory : public IRentalFactory {
 public:
   RentalFactory(IMovieRepo& movie_repo);
-  Rental createRental(const std::string& input) override;
+  Rental createRental(const std::string& input) const override;
 private:
   IMovieRepo& movie_repo_;
 };

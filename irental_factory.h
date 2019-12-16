@@ -11,7 +11,7 @@ class IRentalFactory {
    * @return created rental facotry
    * @throw std::invalid_argument  if user input is not correct
    */
-  virtual Rental createRental(const std::string& input) =0;
+  virtual Rental createRental(const std::string& input) const =0;
 };
 
 #endif // IRENTAL_FACTORY_H
