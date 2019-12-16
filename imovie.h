@@ -5,6 +5,7 @@
  * @brief The IMovie class interface for Movie
  */
 class IMovie {
+public:
   /**
    * @brief getName provide movie name
    * @return human readable name of the movie

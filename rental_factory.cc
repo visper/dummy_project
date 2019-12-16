@@ -10,7 +10,7 @@ Rental RentalFactory::createRental(const std::string& input) const {
   std::vector<std::string> rental_data = Split(input, ' ');
   int key = std::stoi(rental_data[0]);
   int days = std::stoi(rental_data[1]);
-  Movie movie = movie_repo_.getMovie(key);
+  const IMovie& movie = movie_repo_.getMovie(key);
   Rental rental (movie , days);
   return rental;
 }

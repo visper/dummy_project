@@ -1,6 +1,6 @@
 #ifndef IMOVIE_REPO_H
 #define IMOVIE_REPO_H
-#include "movie.h"
+#include "imovie.h"
 
 class IMovieRepo {
 public :
@@ -10,7 +10,7 @@ public :
    * @return movie from repository
    * @throw std::invalid_argument if movie not exist
    */
-  virtual Movie getMovie(int index) const = 0 ;
+  virtual const IMovie& getMovie(int index) const = 0 ;
 
   /**
     * @brief print Print all movies to stream
