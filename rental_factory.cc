@@ -1,7 +1,8 @@
 #include "rental_factory.h"
 #include <vector>
 #include "utils.h"
-RentalFactory::RentalFactory(MovieRepo& movie_repo):movie_repo_(movie_repo) {
+
+RentalFactory::RentalFactory(IMovieRepo& movie_repo):movie_repo_(movie_repo) {
 
 };
 
