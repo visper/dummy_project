@@ -24,7 +24,7 @@ struct Rental {
   int days_rented_;
 
 
-  int GetFrequentRenterPoints() {
+  int GetFrequentRenterPoints() const {
     if (movie_.type == "NEW_RELEASE" && days_rented_ > 1) {
       return 2;
     }
@@ -133,17 +133,21 @@ void run(std::istream& in, std::ostream& out){
   int frequentRenterPoints = 0;
 
   RentalFactory rental_facotry_(movie_repo);
+  std::vector<Rental> rentals;
+
   for (const auto& line : user_input) {
-      Rental rental = rental_facotry_.createRental(line);
-
-      double thisAmount = rental.GetAmount();
-
-      frequentRenterPoints += rental.GetFrequentRenterPoints();
-      // show figures for this rental
-      result << "\t" << rental.movie_.name + "\t" << thisAmount << "\n";
-      totalAmount += thisAmount;
+      rentals.push_back(rental_facotry_.createRental(line));
   }
 
+  for (const auto& rental : rentals) {
+    frequentRenterPoints += rental.GetFrequentRenterPoints();
+  }
+
+  for (const auto& rental : rentals) {
+    double thisAmount = rental.GetAmount();
+    result << "\t" << rental.movie_.name + "\t" << thisAmount << "\n";
+    totalAmount += thisAmount;
+  }
 
   // add footer lines
   result << "You owed " << totalAmount << "\n";
