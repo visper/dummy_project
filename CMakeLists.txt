@@ -8,12 +8,18 @@ enable_testing()
 
 
 set(SOURCES
+       utils.cc
        imovie.h
        movie.h
        movie.cc
        irental.h
        rental.h
        rental.cc
+       imovie_repo.h
+       movie_repo.h
+       movie_repo.cc
+       rental_factory.h
+       rental_factory.cc
        run.h
        run.cpp)
 add_library(StoreLib ${SOURCES})

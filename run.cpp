@@ -4,19 +4,14 @@
 #include <vector>
 #include <iomanip>
 #include <sstream>
+
+#include "utils.h"
 #include "movie.h"
 #include "rental.h"
+#include "movie_repo.h"
+#include "rental_factory.h"
 
- std::vector<std::string> Split(const std::string& line, const char delimeter) {
-   std::vector<std::string> movie;
-  for (size_t first=0, last=0; last < line.length(); first=last+1) {
-    last = line.find(delimeter, first);
-    movie.push_back(line.substr(first, last-first));
-  }
-  return movie;
-}
-
- std::vector<std::string> UserInput(std::istream& in) {
+std::vector<std::string> UserInput(std::istream& in) {
    std::vector<std::string> user_input;
    while (true) {
      std::string line;
@@ -28,46 +23,6 @@
    }
    return user_input;
  }
-
- struct MovieRepo {
-    MovieRepo(std::ifstream& db_file) {
-      for (std::string line; std::getline(db_file, line);) {
-        auto movie_data = Split(line, ';');
-        auto movie_index  = std::stoi(movie_data[0]);
-        Movie movie {movie_index, movie_data[1], movie_data[2]};
-        movies_.insert(std::make_pair(movie_index, movie));
-      }
-    }
-
-    Movie getMovie(int index) const {
-        return movies_.at(index);
-    }
-
-     void print(std::ostream& out) const {
-        for (const auto& movie: movies_) {
-            out << movie.first<< ": " << movie.second.getName()<< "\n";
-        }
-     }
-
- private:
-    std::map<int, Movie> movies_;
- };
-
-struct RentalFactory {
-  RentalFactory(MovieRepo& movie_repo):movie_repo_(movie_repo) {
-
-  };
-  Rental createRental(const std::string& input) {
-    std::vector<std::string> rental_data = Split(input, ' ');
-    int key = std::stoi(rental_data[0]);
-    int days = std::stoi(rental_data[1]);
-    Movie movie = movie_repo_.getMovie(key);
-    Rental rental (movie , days);
-    return rental;
-  }
-
-  MovieRepo& movie_repo_;
-};
 
 double getTotalAmount(std::vector<Rental>& rentals) {
     double result = 0;
