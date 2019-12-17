@@ -5,60 +5,13 @@
 #include <iomanip>
 #include <sstream>
 
+#include "utils.h"
 
-struct Movie {
-  int index;
-  std::string name;
-  std::string type;
-};
-
-struct Rental {
-  Rental( Movie movie,  int days_rented) :
-                movie_(movie),
-                days_rented_(days_rented) {
-
-  }
-
-  Movie movie_;
-  int days_rented_;
-
-
-  int GetFrequentRenterPoints() const {
-    if (movie_.type == "NEW_RELEASE" && days_rented_ > 1) {
-      return 2;
-    }
-    return 1;
-  }
-
-
-  double GetAmount() const {
-    if (movie_.type == "NEW_RELEASE") {
-          return days_rented_ * 3;
-    }
-    if (movie_.type == "REGULAR") {
-      if (days_rented_ > 2) {
-        return 2 + (days_rented_ - 2) * 1.5;
-      }
-      return 2;
-    }
-    if (movie_.type == "CHILDRENS") {
-        if (days_rented_ > 3) {
-          return 1.5 + (days_rented_ - 3) * 1.5;
-        }
-        return 1.5;
-    }
-    return 0;
-  }
-};
-
- std::vector<std::string> Split(const std::string& line, const char delimeter) {
-   std::vector<std::string> movie;
-  for (size_t first=0, last=0; last < line.length(); first=last+1) {
-    last = line.find(delimeter, first);
-    movie.push_back(line.substr(first, last-first));
-  }
-  return movie;
-}
+#include "movie.h"
+#include "rental.h"
+#include "movie_repo.h"
+#include "rental_factory.h"
+#include "rental_record.h"
 
  std::vector<std::string> UserInput(std::istream& in) {
    std::vector<std::string> user_input;
@@ -72,93 +25,6 @@ struct Rental {
    }
    return user_input;
  }
-
- struct MovieRepo {
-    MovieRepo(std::ifstream& db_file) {
-      for (std::string line; std::getline(db_file, line);) {
-        auto movie_data = Split(line, ';');
-        Movie movie {std::stoi(movie_data[0]), movie_data[1], movie_data[2]};
-        movies_.insert(std::make_pair(movie.index, movie));
-      }
-    }
-
-    Movie getMovie(int index) const {
-        return movies_.at(index);
-    }
-
-     void print(std::ostream& out) const {
-        for (const auto& movie: movies_) {
-            out << movie.first<< ": " << movie.second.name<< "\n";
-        }
-     }
-
- private:
-    std::map<int, Movie> movies_;
- };
-
-
- struct RentalFactory {
-   RentalFactory (const MovieRepo& movie_repo) :
-     movie_repo_(movie_repo){}
-
-   Rental getRental(const std::string& input) const {
-     std::vector<std::string> rental_data = Split(input, ' ');
-     const auto movie_index = std::stoi(rental_data[0]);
-     const auto movie = movie_repo_.getMovie(movie_index);
-     const auto days_rented = std::stoi(rental_data[1]);
-     return Rental(movie, days_rented);
-   }
-
-   const MovieRepo& movie_repo_;
- };
-
-
- struct RentalRecord {
-
-   void addRental(const Rental& rental) {
-     rentals_.push_back(rental);
-   }
-
-   double getTotalAmount() const {
-     double totalAmount = 0;
-     for (const auto& rental: rentals_) {
-       totalAmount += rental.GetAmount();
-     }
-     return totalAmount;
-   }
-
-   double getTotalFrequentRenterPoints() const {
-     int frequentRenterPoints = 0;
-     for (const auto& rental: rentals_) {
-       frequentRenterPoints += rental.GetFrequentRenterPoints();
-     }
-     return frequentRenterPoints;
-   }
-
-     void print(std::ostream& out) const {
-       for (const auto& rental: rentals_) {
-         out << "\t" << rental.movie_.name + "\t" << rental.GetAmount() << "\n";
-       }
-     }
-    std::vector<Rental> rentals_;
-};
-
-double getTotalAmount(std::vector<Rental> rentals)  {
-   double totalAmount = 0;
-   for (const auto& rental: rentals) {
-     totalAmount += rental.GetAmount();
-  }
-  return totalAmount;
-}
-
-int getTotalFrequentRenterPoints(std::vector<Rental> rentals) {
-   int frequentRenterPoints = 0;
-   for (const auto& rental: rentals) {
-     frequentRenterPoints += rental.GetFrequentRenterPoints();
-   }
-
-   return frequentRenterPoints;
-}
 
  void run(std::istream& in, std::ostream& out){
   using namespace std::literals;
@@ -189,3 +55,8 @@ int getTotalFrequentRenterPoints(std::vector<Rental> rentals) {
   result << "You earned " << frequentRenterPoints << " frequent renter points\n";
   out << result.str();
 }
+
+
+
+
+
