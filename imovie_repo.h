@@ -11,7 +11,7 @@ public:
     * @return movie by index
     * @todo throw exeption on invalid index
     */
-   virtual Movie getMovie(int index) const = 0;
+   virtual const IMovie& getMovie(int index) const = 0;
 
   /**
     * @brief print prints all movies to output

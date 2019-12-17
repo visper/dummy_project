@@ -1,7 +1,7 @@
 #include "rental.h"
 
 
-Rental::Rental(Movie movie, int days_rented) :
+Rental::Rental(const IMovie& movie, int days_rented) :
   movie_(movie),
   days_rented_(days_rented) {
 

@@ -5,7 +5,7 @@
 
 class Rental : public IRental {
 public :
-  Rental(Movie movie,  int days_rented);
+  Rental(const IMovie& movie,  int days_rented);
 
   const std::string getMovieName() const override;
   int GetFrequentRenterPoints() const override;
@@ -14,7 +14,7 @@ public :
   double GetAmount() const override;
 
 private:
-  const Movie movie_;
+  const IMovie& movie_;
   const int days_rented_;
 };
 

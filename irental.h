@@ -22,6 +22,8 @@ public :
    * @return amount
    */
   virtual double GetAmount() const = 0;
+
+  virtual ~IRental() = default;
 };
 #endif // IRENTAL_H
 
