@@ -1,6 +1,7 @@
 #ifndef IRENTALFACTORY
 #define IRENTALFACTORY
 #include <string>
+#include <memory>
 
 #include "rental.h"
 
@@ -13,7 +14,7 @@ public:
    * @param input user input
    * @return rental created from user input
    */
-  virtual Rental getRental(const std::string& input) const =0;
+  virtual std::unique_ptr<IRental> getRental(const std::string& input) const =0;
 
 };
 

@@ -1,7 +1,8 @@
 #ifndef IRENTAL_RECORD_H
 #define IRENTAL_RECORD_H
 #include <ostream>
-#include "rental.h"
+#include <memory>
+#include "irental.h"
 
 class IRentalRecord {
 public:
@@ -10,7 +11,7 @@ public:
    * @brief addRental add rental to rental record
    * @param rental
    */
-  virtual void addRental(const Rental& rental) = 0;
+  virtual void addRental(std::unique_ptr<IRental>&& rental) = 0;
 
   /**
    * @brief getTotalAmount calculate amount of all rentals

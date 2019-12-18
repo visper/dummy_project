@@ -6,7 +6,7 @@
 
 class RentalRecord : public IRentalRecord {
 public:
-  void addRental(const Rental& rental);
+  void addRental(std::unique_ptr<IRental>&& rental);
 
   double getTotalAmount() const override;
 
@@ -14,7 +14,7 @@ public:
 
     void print(std::ostream& out) const override;
 private:
-   std::vector<Rental> rentals_;
+   std::vector<std::unique_ptr<IRental>> rentals_;
 };
 
 #endif // RENTALRECORD_H

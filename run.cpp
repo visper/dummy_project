@@ -43,8 +43,8 @@
   const RentalFactory rental_facotory(movie_repo);
   RentalRecord rental_record;
   for (const auto& line : user_input) {
-      const auto& rental = rental_facotory.getRental(line);
-      rental_record.addRental(rental);
+      auto rental = rental_facotory.getRental(line);
+      rental_record.addRental(std::move(rental));
   }
 
   double totalAmount = rental_record.getTotalAmount();

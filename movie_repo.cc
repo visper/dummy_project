@@ -12,7 +12,7 @@ MovieRepo::MovieRepo(std::ifstream& db_file) {
   }
 }
 
-Movie MovieRepo::getMovie(int index) const {
+const IMovie& MovieRepo::getMovie(int index) const {
   return movies_.at(index);
 }
 
