@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 using namespace std;				// {TODO} add tests
+                                            // TODO : remove using namespace
 
 // ------ GLOBALS ------
 
@@ -14,16 +15,56 @@ const int SECOND_OPERAND_INDEX = 1;
 
 // ---------------------
 
+class IOperation
+{
+public:
+	virtual float calculate(float, float) const = 0;
+};
+
+class Sum : public IOperation
+{
+public:
+	float calculate(float, float) const override;
+};
+
+class Sub : public IOperation
+{
+public:
+	float calculate(float, float) const override;
+};
+
+class Mul : public IOperation  // TODO : Avoid shorting words
+{
+public:
+	float calculate(float, float) const override;
+};
+
+class Div : public IOperation
+{
+public:
+	float calculate(float, float) const override;
+};
+
 class iCalc
 {
 public:
 	virtual void setString(string) = 0;
-	virtual float returnResult() = 0;
+  virtual float returnResult() = 0;  // TODO: make this method const
+  virtual ~iCalc() = default;
 };
 
 class Calc : public iCalc
 {
+	//{TODO} move string parsing to another class
+	//		 use Calc class like fasade for IOperation
+	//		 and IStringPrser
 public:
+  Calc() :
+    stringToParse(""),
+    operandsVector(0),
+    operatorsVector(0),
+    result(0) {};
+
 	void setString(string);
 	float returnResult();
 
@@ -34,16 +75,15 @@ private:
 	float result;
 
 	void parseInputString();
-	void parseOperators(string&);
-	void parceOperands(string&);
+	void dividentEqualsZero(string&);
 
-	float sum(float a, float b) { return a + b; };
-	float sub(float a, float b) { return a - b; };
-	float mul(float a, float b) { return a * b; };
-	float div(float a, float b) { if (b == 0.0) throw runtime_error("fuckin' idiot!"); else return a / b; } //error code is better here
-	
-	char operatorsToParse(int);
+  void parseIncorrectSymbols(string&);
+	void parseOperands(string&);
+
+	void useOperation(float, float, char);
+  char operatorsToParse(int);
 	void reduceVectorSize(float);
+	
 };
 
 // 2 3 + 2 * 4 + 5 -
