@@ -17,7 +17,8 @@ class Calculator : public ICalculator {
                          std::vector<float>& operands) const;
 
  private:
-  std::string user_input_;
+  // Is there any reasons to have Calculator class ?
+  std::string user_input_; // TODO :: Looks like user_input used only in setter
   std::smatch sm_;
 };
 }  // namespace dev
