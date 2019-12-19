@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-using namespace std; // test
 
 /*
  * The calculator input is double numbers, operators + - * /
@@ -44,7 +43,7 @@ int main(int argc, char** argv) {
             }
         }
 
-        execute(sources);
+        executive::execute(sources);
     } catch (const std::invalid_argument& e) {
         std::cout << "std::invalid_argument" << std::endl;
         show_usage();

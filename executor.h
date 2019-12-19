@@ -3,7 +3,9 @@
 
 #include <vector>
 #include <string>
-///TODO: namespace wrrap
-double execute(const std::vector <std::string>& src);
+
+namespace executive {
+  double execute(const std::vector <std::string>& src);
+}
 
 #endif // EXECUTOR_H

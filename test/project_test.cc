@@ -67,7 +67,7 @@ TEST_F(ProjectTest, TokenNumber) {
     constexpr double test_number = -9.985;
     Token t(test_number);
     ASSERT_DOUBLE_EQ(test_number, t.getNumber());
-    ASSERT_EQ(true, t.is_number());
+    ASSERT_TRUE(t.is_number());
     ASSERT_EQ(TOper::NONE, t.getOperand());
 }
 
@@ -75,7 +75,7 @@ TEST_F(ProjectTest, TokenOperation) {
     TOper::Operand test_operation = TOper::DIV;
     Token t(test_operation);
     ASSERT_EQ(0, t.getNumber());
-    ASSERT_EQ(false, t.is_number());
+    ASSERT_FALSE(t.is_number());
     ASSERT_EQ(test_operation, t.getOperand());
 }
 
@@ -83,12 +83,12 @@ TEST_F(ProjectTest, TokenComplexConstructor) {
     constexpr double test_number = -9.985;
     Token t(true, TOper::ADD, test_number);
     ASSERT_DOUBLE_EQ(test_number, t.getNumber());
-    ASSERT_EQ(true, t.is_number());
+    ASSERT_TRUE(t.is_number());
     ASSERT_EQ(TOper::NONE, t.getOperand());
 
     Token t2(false, TOper::ADD, test_number);
     ASSERT_EQ(0, t2.getNumber());
-    ASSERT_EQ(false, t2.is_number());
+    ASSERT_FALSE(t2.is_number());
     ASSERT_EQ(TOper::ADD, t2.getOperand());
 }
 //Token test end
@@ -135,7 +135,7 @@ TEST_F(ProjectTest, Stack) {
 
     t = stk.pop(rc);
     ASSERT_EQ(1, rc);
-    ASSERT_EQ(false, t.is_number());
+    ASSERT_FALSE(t.is_number());
     ASSERT_EQ(t.getOperand(), TOper::SUB);
     ASSERT_EQ(stk.getSize(), 0);
 
@@ -182,7 +182,7 @@ TEST_F(ProjectTest, simpleAdd) {
     sources.push_back(std::string("2"));
     sources.push_back(std::string("+"));
 
-    ASSERT_DOUBLE_EQ(execute(sources), 7);
+    ASSERT_DOUBLE_EQ(executive::execute(sources), 7);
 }
 
 TEST_F(ProjectTest, simpleSub) {
@@ -191,7 +191,7 @@ TEST_F(ProjectTest, simpleSub) {
     sources.push_back(std::string("2"));
     sources.push_back(std::string("-"));
 
-    ASSERT_DOUBLE_EQ(execute(sources), 3);
+    ASSERT_DOUBLE_EQ(executive::execute(sources), 3);
 }
 
 TEST_F(ProjectTest, simpleMul) {
@@ -200,7 +200,7 @@ TEST_F(ProjectTest, simpleMul) {
     sources.push_back(std::string("2"));
     sources.push_back(std::string("*"));
 
-    ASSERT_DOUBLE_EQ(execute(sources), 10);
+    ASSERT_DOUBLE_EQ(executive::execute(sources), 10);
 }
 
 TEST_F(ProjectTest, simpleDiv) {
@@ -209,7 +209,7 @@ TEST_F(ProjectTest, simpleDiv) {
     sources.push_back(std::string("2"));
     sources.push_back(std::string("/"));
 
-    ASSERT_DOUBLE_EQ(execute(sources), 2.5);
+    ASSERT_DOUBLE_EQ(executive::execute(sources), 2.5);
 }
 
 TEST_F(ProjectTest, mediumRear) {
@@ -224,7 +224,7 @@ TEST_F(ProjectTest, mediumRear) {
     sources.push_back(std::string("2"));
     sources.push_back(std::string("*"));
 
-    ASSERT_DOUBLE_EQ(execute(sources), 8);
+    ASSERT_DOUBLE_EQ(executive::execute(sources), 8);
 }
 
 TEST_F(ProjectTest, wrongImput) {
@@ -239,7 +239,7 @@ TEST_F(ProjectTest, wrongImput) {
     sources.push_back(std::string("2"));
     sources.push_back(std::string("H"));
 
-    ASSERT_THROW(execute(sources), std::invalid_argument);
+    ASSERT_THROW(executive::execute(sources), std::invalid_argument);
 }
 
 //Calculator test end
