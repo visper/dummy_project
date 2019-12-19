@@ -28,9 +28,9 @@ public:
     TOper::Operand getOperand();
     long double getNumber();
 private:
-    long double d;
-    TOper::Operand opr;
-    bool is_num;
+    long double number_;
+    TOper::Operand operator_;
+    bool is_num_;
 };
 
 #endif // TOKEN_H
