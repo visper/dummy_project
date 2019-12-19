@@ -3,7 +3,7 @@
 
 Stack::Stack(const std::vector<Token>& t) : size(0) /*: size(t.size()) */ //init vector
 {
-    //for(int i = size-1; i >= 0; --i) {
+  // TODO: Use range-based loop or reverse-iterators loop
     for(int i = t.size()-1; i >= 0; --i) {
         push(t[i]);
     }
@@ -24,7 +24,7 @@ void Stack::push(const Token& elem)
 {
     if ( stk.size() <= size ) { // here size must be added after compate
         stk.push_back(elem);
-        ++size;
+        ++size; // TODO: Maybe it is better to use size from stk only?
     } else
         std::cout << "stack is full" << std::endl;
 }

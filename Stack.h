@@ -8,7 +8,7 @@
 ///TODO:namespace
 class Stack {
     int size;
-    std::vector<Token> stk;
+    std::vector<Token> stk; // rename stk to stack 
 public:
     ///TODO: stack is stack. do adapter for stack with Token
     Stack(const std::vector<Token>& t);
