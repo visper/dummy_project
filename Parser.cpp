@@ -5,13 +5,11 @@
 
 Parser::Parser(const std::vector <std::string>& line)
     : rawLines(line)
-    , currentPosition(0)
 {}
 
 void Parser::parse()
 {   
     for(size_t i = 0; i < rawLines.size(); ++i) {
-        currentPosition = i+1;
         //check for operator
         ///TODO: check Factory applicance
         if(rawLines[i] == std::string("+")) {
@@ -27,18 +25,11 @@ void Parser::parse()
             Token t(TOper::DIV);
             tokens.push_back(t);
         } else { //check for number
-            long double dd;
-//            try {
-                dd = std::stod (rawLines[i]);
-                //try to throw position also
-//            } catch (...) {
-//                std::cerr << "wrong data on " << i+1
-//                          << " position" << std::endl;
-//                return;
-//            }
+          long double dd;
+               dd = std::stod (rawLines[i]);
 
-            Token t(dd);
-            tokens.push_back(t);
+           Token t(dd);
+           tokens.push_back(t);
         }
     }
 }

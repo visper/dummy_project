@@ -14,7 +14,6 @@ public:
 private:
     std::vector<Token> tokens;
     std::vector <std::string> rawLines;
-    size_t currentPosition;
 };
 
 #endif // PARSER_H
