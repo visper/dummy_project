@@ -43,7 +43,8 @@ double Calculator::exe() {
             rec = result;
         }
 
-        if(!rc) break;
+        // it is better to return std::numeric_limits<double>::lowest() than pass result code through referrence.
+        if(!rc) break;  
     }
     return rec;
 }
